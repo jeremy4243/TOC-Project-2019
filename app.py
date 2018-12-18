@@ -9,7 +9,11 @@ machine = TocMachine(
         'user',
         'state1',
         'state2',
-        'state3'
+        'state3',
+        'state4',
+        'state5',
+        'state6',
+        'state7'
     ],
     transitions=[
         {
@@ -32,11 +36,24 @@ machine = TocMachine(
 
         },
         {
+            'trigger': 'advance',
+            'source':'user',
+            'dest':'state4',
+            'conditions':'is_going_to_state4'
+        },
+        {
+            'trigger': 'to_five',
+            'source':'state4',
+            'dest':'state5',
+            'conditions':'is_going_to_state5'
+        },
+        {
             'trigger': 'go_back',
             'source': [
                 'state1',
                 'state2',
-                'state3'
+                'state3',
+                'state5'
             ],
             'dest': 'user'
         }
