@@ -1,8 +1,9 @@
 from bottle import route, run, request, abort, static_file
 
 from fsm import TocMachine
+import os
 
-
+PORT = os.environ['PORT']
 VERIFY_TOKEN = "1234567890"
 machine = TocMachine(
     states=[
@@ -11,7 +12,9 @@ machine = TocMachine(
         'state2',
         'state3',
         'state4',
-        'state5'
+        'state5',
+        'state6',
+        'state7'
     ],
     transitions=[
         {
@@ -39,10 +42,22 @@ machine = TocMachine(
             'conditions': 'is_going_to_state4'
         },
         {
-            'trigger': 'to_five',
+            'trigger': 'advance',
             'source': 'state4',
             'dest': 'state5',
             'conditions': 'is_going_to_state5'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'state5',
+            'dest': 'state6',
+            'conditions': 'is_going_to_state6'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'state6',
+            'dest': 'state7',
+            'conditions': 'is_going_to_state7'
         },
         {
             'trigger': 'go_back',
@@ -50,7 +65,7 @@ machine = TocMachine(
                 'state1',
                 'state2',
                 'state3',
-                'state5'
+                'state7'
             ],
             'dest': 'user'
         }
@@ -95,4 +110,4 @@ def show_fsm():
 
 
 if __name__ == "__main__":
-    run(host="localhost", port=5000, debug=True, reloader=True)
+    run(host="0.0.0.0", port=PORT, debug=True,reloader = True)
